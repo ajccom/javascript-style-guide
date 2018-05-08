@@ -84,12 +84,14 @@
     // good
     var item = {}
     
-    // 避免直接使用构造函数初始化值，但也不排除必要情况下的使用，比如
+    // 避免直接使用构造函数初始化值，但也不排除某些情况下的使用，比如
+    
     var num = 12
     num = num.toFixed(2)
     
     // or
-    var num = new Number(12).toFixed(2)
+    
+    var num = new Number(12).toFixed(2)
     ```
 
   - 不要使用保留字 [reserved words](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Reserved_Words) 作为键
