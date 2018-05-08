@@ -44,14 +44,17 @@
     + `boolean`
     + `null`
     + `undefined`
+    
+    + `symbol`
+    + `bigint (Stage 3)`
 
     ```javascript
     var foo = 1,
-        bar = foo;
+      bar = foo
 
-    bar = 9;
+    bar = 9
 
-    console.log(foo, bar); // => 1, 9
+    console.log(foo, bar) // => 1, 9
     ```
   - **复杂类型**: 相当于传引用
 
@@ -61,11 +64,11 @@
 
     ```javascript
     var foo = [1, 2],
-        bar = foo;
+      bar = foo
 
-    bar[0] = 9;
+    bar[0] = 9
 
-    console.log(foo[0], bar[0]); // => 9, 9
+    console.log(foo[0], bar[0]) // => 9, 9
     ```
 
     **[[⬆]](#TOC)**
@@ -76,11 +79,18 @@
 
     ```javascript
     // bad
-    var item = new Object();
+    var item = new Object()
 
     // good
-    var item = {};
-    ```
+    var item = {}
+    
+    // 避免直接使用构造函数初始化值，但也不排除必要情况下的使用，比如
+    var num = 12
+    num = num.toFixed(2)
+    
+    // or
+    var num = new Number(12).toFixed(2)
+    ```
 
   - 不要使用保留字 [reserved words](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Reserved_Words) 作为键
 
@@ -90,14 +100,14 @@
       class: 'superhero',
       default: { clark: 'kent' },
       private: true
-    };
+    }
 
     // good
     var superman = {
       klass: 'superhero',
       defaults: { clark: 'kent' },
       hidden: true
-    };
+    }
     ```
     **[[⬆]](#TOC)**
 
@@ -107,23 +117,22 @@
 
     ```javascript
     // bad
-    var items = new Array();
+    var items = new Array()
 
     // good
-    var items = [];
+    var items = []
     ```
 
   - 如果你不知道数组的长度，使用push
 
     ```javascript
-    var someStack = [];
-
+    var someStack = []
 
     // bad
-    someStack[someStack.length] = 'abracadabra';
+    someStack[someStack.length] = 'abracadabra'
 
     // good
-    someStack.push('abracadabra');
+    someStack.push('abracadabra')
     ```
 
   - 当你需要拷贝数组时使用slice. [jsPerf](http://jsperf.com/converting-arguments-to-an-array/7)
@@ -131,22 +140,22 @@
     ```javascript
     var len = items.length,
         itemsCopy = [],
-        i;
+        i
 
     // bad
     for (i = 0; i < len; i++) {
-      itemsCopy[i] = items[i];
+      itemsCopy[i] = items[i]
     }
 
     // good
-    itemsCopy = items.slice();
+    itemsCopy = items.slice()
     ```
 
   - 使用slice将类数组的对象转成数组.
 
     ```javascript
     function trigger() {
-      var args = Array.prototype.slice.call(arguments);
+      var args = Array.prototype.slice.call(arguments)
       ...
     }
     ```
@@ -160,16 +169,16 @@
 
     ```javascript
     // bad
-    var name = "Bob Parr";
+    var name = "Bob Parr"
 
     // good
-    var name = 'Bob Parr';
+    var name = 'Bob Parr'
 
     // bad
-    var fullName = "Bob " + this.lastName;
+    var fullName = "Bob " + this.lastName
 
     // good
-    var fullName = 'Bob ' + this.lastName;
+    var fullName = 'Bob ' + this.lastName
     ```
 
   - 超过80个字符的字符串应该使用字符串连接换行
@@ -177,7 +186,7 @@
 
     ```javascript
     // bad
-    var errorMessage = 'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.';
+    var errorMessage = 'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.'
 
     // bad
     var errorMessage = 'This is a super long error that \
@@ -185,7 +194,7 @@
     When you stop to think about \
     how Batman had anything to do \
     with this, you would get nowhere \
-    fast.';
+    fast.'
 
 
     // good
@@ -194,7 +203,7 @@
       'When you stop to think about ' +
       'how Batman had anything to do ' +
       'with this, you would get nowhere ' +
-      'fast.';
+      'fast.'
     ```
 
   - 编程时使用join而不是字符串连接来构建字符串，特别是IE: [jsPerf](http://jsperf.com/string-vs-array-concat/2).
@@ -202,7 +211,7 @@
     ```javascript
     var items,
         messages,
-        length, i;
+        length, i
 
     messages = [{
         state: 'success',
@@ -215,28 +224,28 @@
         message: 'This one did not work.'
     }];
 
-    length = messages.length;
+    length = messages.length
 
     // bad
     function inbox(messages) {
-      items = '<ul>';
+      items = '<ul>'
 
       for (i = 0; i < length; i++) {
-        items += '<li>' + messages[i].message + '</li>';
+        items += '<li>' + messages[i].message + '</li>'
       }
 
-      return items + '</ul>';
+      return items + '</ul>'
     }
 
     // good
     function inbox(messages) {
-      items = [];
+      items = []
 
       for (i = 0; i < length; i++) {
-        items[i] = messages[i].message;
+        items[i] = messages[i].message
       }
 
-      return '<ul><li>' + items.join('</li><li>') + '</li></ul>';
+      return '<ul><li>' + items.join('</li><li>') + '</li></ul>'
     }
     ```
 
@@ -250,18 +259,18 @@
     ```javascript
     // 匿名函数表达式
     var anonymous = function() {
-      return true;
+      return true
     };
 
     // 有名函数表达式
     var named = function named() {
-      return true;
-    };
+      return true
+    }
 
     // 立即调用函数表达式
-    (function() {
-      console.log('Welcome to the Internet. Please follow me.');
-    })();
+    ;(function() {
+      console.log('Welcome to the Internet. Please follow me.')
+    })()
     ```
 
   - 绝对不要在一个非函数块里声明一个函数，把那个函数赋给一个变量。浏览器允许你这么做，但是它们解析不同。
@@ -271,15 +280,15 @@
     // bad
     if (currentUser) {
       function test() {
-        console.log('Nope.');
+        console.log('Nope.')
       }
     }
 
     // good
     if (currentUser) {
       var test = function test() {
-        console.log('Yup.');
-      };
+        console.log('Yup.')
+      }
     }
     ```
 
@@ -308,13 +317,13 @@
     var luke = {
       jedi: true,
       age: 28
-    };
-
-    function getProp(prop) {
-      return luke[prop];
     }
 
-    var isJedi = getProp('jedi');
+    function getProp(prop) {
+      return luke[prop]
+    }
+
+    var isJedi = getProp('jedi')
     ```
 
     **[[⬆]](#TOC)**
@@ -326,24 +335,10 @@
 
     ```javascript
     // bad
-    superPower = new SuperPower();
+    superPower = new SuperPower()
 
     // good
-    var superPower = new SuperPower();
-    ```
-
-  - 使用一个 `var` 以及新行声明多个变量，缩进4个空格。
-
-    ```javascript
-    // bad
-    var items = getItems();
-    var goSportsTeam = true;
-    var dragonball = 'z';
-
-    // good
-    var items = getItems(),
-        goSportsTeam = true,
-        dragonball = 'z';
+    var superPower = new SuperPower()
     ```
 
   - 最后再声明未赋值的变量，当你想引用之前已赋值变量的时候很有用。
@@ -352,20 +347,20 @@
     // bad
     var i, len, dragonball,
         items = getItems(),
-        goSportsTeam = true;
+        goSportsTeam = true
 
     // bad
     var i, items = getItems(),
         dragonball,
         goSportsTeam = true,
-        len;
+        len
 
     // good
     var items = getItems(),
         goSportsTeam = true,
         dragonball,
         length,
-        i;
+        i
     ```
 
   - 在作用域顶部声明变量，避免变量声明和赋值引起的相关问题。
@@ -374,55 +369,55 @@
     // bad
     function() {
       test();
-      console.log('doing stuff..');
+      console.log('doing stuff..')
 
       //..other stuff..
 
-      var name = getName();
+      var name = getName()
 
       if (name === 'test') {
-        return false;
+        return false
       }
 
-      return name;
+      return name
     }
 
     // good
     function() {
-      var name = getName();
+      var name = getName()
 
       test();
-      console.log('doing stuff..');
+      console.log('doing stuff..')
 
       //..other stuff..
 
       if (name === 'test') {
-        return false;
+        return false
       }
 
-      return name;
+      return name
     }
 
     // bad
     function() {
-      var name = getName();
+      var name = getName()
 
       if (!arguments.length) {
-        return false;
+        return false
       }
 
-      return true;
+      return true
     }
 
     // good
     function() {
       if (!arguments.length) {
-        return false;
+        return false
       }
 
-      var name = getName();
+      var name = getName()
 
-      return true;
+      return true
     }
     ```
 
@@ -484,22 +479,22 @@
     ```javascript
     // bad
     if (test)
-      return false;
+      return false
 
     // good
-    if (test) return false;
+    if (test) return false
 
     // good
     if (test) {
-      return false;
+      return false
     }
 
     // bad
-    function() { return false; }
+    function() { return false }
 
     // good
     function() {
-      return false;
+      return false
     }
     ```
 
@@ -521,7 +516,7 @@
 
       // ...stuff...
 
-      return element;
+      return element
     }
 
     // good
@@ -536,7 +531,7 @@
 
       // ...stuff...
 
-      return element;
+      return element
     }
     ```
 
@@ -544,29 +539,29 @@
 
     ```javascript
     // bad
-    var active = true;  // is current tab
+    var active = true  // is current tab
 
     // good
     // is current tab
-    var active = true;
+    var active = true
 
     // bad
     function getType() {
-      console.log('fetching type...');
+      console.log('fetching type...')
       // set the default type to 'no type'
-      var type = this._type || 'no type';
+      var type = this._type || 'no type'
 
-      return type;
+      return type
     }
 
     // good
     function getType() {
-      console.log('fetching type...');
+      console.log('fetching type...')
 
       // set the default type to 'no type'
-      var type = this._type || 'no type';
+      var type = this._type || 'no type'
 
-      return type;
+      return type
     }
     ```
 
@@ -576,9 +571,9 @@
     function Calculator() {
 
       // FIXME: shouldn't use a global here
-      total = 0;
+      total = 0
 
-      return this;
+      return this
     }
     ```
 
@@ -586,9 +581,9 @@
     function Calculator() {
 
       // TODO: total should be configurable by an options param
-      this.total = 0;
+      this.total = 0
 
-      return this;
+      return this
     }
     ```
 
@@ -597,22 +592,22 @@
 
 ## <a name='whitespace'>空白</a>
 
-  - 将tab设为4个空格
+  - 将tab设为2个空格
 
     ```javascript
     // bad
     function() {
-    ∙∙var name;
+    ∙∙∙∙var name
     }
 
     // bad
     function() {
-    ∙var name;
+    ∙var name
     }
 
     // good
     function() {
-    ∙∙∙∙var name;
+    ∙∙var name
     }
     ```
   - 大括号前放一个空格
@@ -625,27 +620,27 @@
 
     // good
     function test() {
-      console.log('test');
+      console.log('test')
     }
 
     // bad
     dog.set('attr',{
       age: '1 year',
       breed: 'Bernese Mountain Dog'
-    });
+    })
 
     // good
     dog.set('attr', {
       age: '1 year',
       breed: 'Bernese Mountain Dog'
-    });
+    })
     ```
 
   - 在做长方法链时使用缩进.
 
     ```javascript
     // bad
-    $('#items').find('.selected').highlight().end().find('.open').updateCount();
+    $('#items').find('.selected').highlight().end().find('.open').updateCount()
 
     // good
     $('#items')
@@ -653,13 +648,13 @@
         .highlight()
         .end()
       .find('.open')
-        .updateCount();
+        .updateCount()
 
     // bad
     var leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
         .attr('width',  (radius + margin) * 2).append('svg:g')
         .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
+        .call(tron.led)
 
     // good
     var leds = stage.selectAll('.led')
@@ -669,7 +664,7 @@
         .attr('width',  (radius + margin) * 2)
       .append('svg:g')
         .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
+        .call(tron.led)
     ```
 
     **[[⬆]](#TOC)**
@@ -703,7 +698,7 @@
       lastName: 'Parr',
       heroName: 'Mr. Incredible',
       superPower: 'strength'
-    };
+    }
     ```
 
   - 不要加多余的逗号，这可能会在IE下引起错误，同时如果多一个逗号某些ES3的实现会计算多数组的长度。
@@ -713,23 +708,23 @@
     var hero = {
       firstName: 'Kevin',
       lastName: 'Flynn',
-    };
+    }
 
     var heroes = [
       'Batman',
       'Superman',
-    ];
+    ]
 
     // good
     var hero = {
       firstName: 'Kevin',
       lastName: 'Flynn'
-    };
+    }
 
     var heroes = [
       'Batman',
       'Superman'
-    ];
+    ]
     ```
 
     **[[⬆]](#TOC)**
@@ -737,26 +732,26 @@
 
 ## <a name='semicolons'>分号</a>
 
-  - 语句结束一定要加分号
+  - 利用JS的ASI机制，避免使用多余分号
 
     ```javascript
     // bad
     (function() {
-      var name = 'Skywalker'
-      return name
-    })()
+      var name = 'Skywalker';
+      return name;
+    })();
 
     // good
     (function() {
-      var name = 'Skywalker';
-      return name;
+      var name = 'Skywalker'
+      return name
     })();
 
     // good
     ;(function() {
-      var name = 'Skywalker';
-      return name;
-    })();
+      var name = 'Skywalker'
+      return name
+    })()
     ```
 
     **[[⬆]](#TOC)**
@@ -771,40 +766,40 @@
     //  => this.reviewScore = 9;
 
     // bad
-    var totalScore = this.reviewScore + '';
+    var totalScore = this.reviewScore + ''
 
     // good
-    var totalScore = '' + this.reviewScore;
+    var totalScore = '' + this.reviewScore
 
     // bad
-    var totalScore = '' + this.reviewScore + ' total score';
+    var totalScore = '' + this.reviewScore + ' total score'
 
     // good
-    var totalScore = this.reviewScore + ' total score';
+    var totalScore = this.reviewScore + ' total score'
     ```
 
   - 对数字使用 `parseInt` 并且总是带上类型转换的基数.
 
     ```javascript
-    var inputValue = '4';
+    var inputValue = '4'
 
     // bad
-    var val = new Number(inputValue);
+    var val = new Number(inputValue)
 
     // bad
-    var val = +inputValue;
+    var val = +inputValue
 
     // bad
-    var val = inputValue >> 0;
+    var val = inputValue >> 0
 
     // bad
-    var val = parseInt(inputValue);
+    var val = parseInt(inputValue)
 
     // good
-    var val = Number(inputValue);
+    var val = Number(inputValue)
 
     // good
-    var val = parseInt(inputValue, 10);
+    var val = parseInt(inputValue, 10)
 
     // good
     /**
@@ -812,22 +807,22 @@
      * Bitshifting the String to coerce it to a
      * Number made it a lot faster.
      */
-    var val = inputValue >> 0;
+    var val = inputValue >> 0
     ```
 
   - 布尔值:
 
     ```javascript
-    var age = 0;
+    var age = 0
 
     // bad
-    var hasAge = new Boolean(age);
+    var hasAge = new Boolean(age)
 
     // good
-    var hasAge = Boolean(age);
+    var hasAge = Boolean(age)
 
     // good
-    var hasAge = !!age;
+    var hasAge = !!age
     ```
 
     **[[⬆]](#TOC)**
@@ -853,20 +848,20 @@
 
     ```javascript
     // bad
-    var OBJEcttsssss = {};
-    var this_is_my_object = {};
-    var this-is-my-object = {};
-    function c() {};
+    var OBJEcttsssss = {}
+    var this_is_my_object = {}
+    var this-is-my-object = {}
+    function c() {}
     var u = new user({
       name: 'Bob Parr'
-    });
+    })
 
     // good
-    var thisIsMyObject = {};
-    function thisIsMyFunction() {};
+    var thisIsMyObject = {}
+    function thisIsMyFunction() {}
     var user = new User({
       name: 'Bob Parr'
-    });
+    })
     ```
 
   - 当命名构造函数或类时使用驼峰式大写
@@ -874,32 +869,32 @@
     ```javascript
     // bad
     function user(options) {
-      this.name = options.name;
+      this.name = options.name
     }
 
     var bad = new user({
       name: 'nope'
-    });
+    })
 
     // good
     function User(options) {
-      this.name = options.name;
+      this.name = options.name
     }
 
     var good = new User({
       name: 'yup'
-    });
+    })
     ```
 
   - 命名私有属性时前面加个下划线 `_`
 
     ```javascript
     // bad
-    this.__firstName__ = 'Panda';
-    this.firstName_ = 'Panda';
+    this.__firstName__ = 'Panda'
+    this.firstName_ = 'Panda'
 
     // good
-    this._firstName = 'Panda';
+    this._firstName = 'Panda'
     ```
 
   - 当保存对 `this` 的引用时使用 `_this`.
@@ -907,26 +902,26 @@
     ```javascript
     // bad
     function() {
-      var self = this;
+      var self = this
       return function() {
-        console.log(self);
-      };
+        console.log(self)
+      }
     }
 
     // bad
     function() {
-      var that = this;
+      var that = this
       return function() {
-        console.log(that);
-      };
+        console.log(that)
+      }
     }
 
     // good
     function() {
-      var _this = this;
+      var _this = this
       return function() {
-        console.log(_this);
-      };
+        console.log(_this)
+      }
     }
     ```
 
@@ -940,16 +935,16 @@
 
     ```javascript
     // bad
-    dragon.age();
+    dragon.age()
 
     // good
-    dragon.getAge();
+    dragon.getAge()
 
     // bad
-    dragon.age(25);
+    dragon.age(25)
 
     // good
-    dragon.setAge(25);
+    dragon.setAge(25)
     ```
 
   - 如果属性是布尔值，使用isVal() 或 hasVal()
@@ -957,12 +952,12 @@
     ```javascript
     // bad
     if (!dragon.age()) {
-      return false;
+      return false
     }
 
     // good
     if (!dragon.hasAge()) {
-      return false;
+      return false
     }
     ```
 
@@ -970,18 +965,18 @@
 
     ```javascript
     function Jedi(options) {
-      options || (options = {});
-      var lightsaber = options.lightsaber || 'blue';
-      this.set('lightsaber', lightsaber);
+      options || (options = {})
+      var lightsaber = options.lightsaber || 'blue'
+      this.set('lightsaber', lightsaber)
     }
 
     Jedi.prototype.set = function(key, val) {
-      this[key] = val;
-    };
+      this[key] = val
+    }
 
     Jedi.prototype.get = function(key) {
-      return this[key];
-    };
+      return this[key]
+    }
     ```
 
     **[[⬆]](#TOC)**
@@ -993,28 +988,28 @@
 
     ```javascript
     function Jedi() {
-      console.log('new jedi');
+      console.log('new jedi')
     }
 
     // bad
     Jedi.prototype = {
       fight: function fight() {
-        console.log('fighting');
+        console.log('fighting')
       },
 
       block: function block() {
-        console.log('blocking');
+        console.log('blocking')
       }
-    };
+    }
 
     // good
     Jedi.prototype.fight = function fight() {
-      console.log('fighting');
-    };
+      console.log('fighting')
+    }
 
     Jedi.prototype.block = function block() {
-      console.log('blocking');
-    };
+      console.log('blocking')
+    }
     ```
 
   - 方法可以返回 `this` 帮助方法可链。
@@ -1022,33 +1017,33 @@
     ```javascript
     // bad
     Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return true;
-    };
+      this.jumping = true
+      return true
+    }
 
     Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-    };
+      this.height = height
+    }
 
-    var luke = new Jedi();
+    var luke = new Jedi()
     luke.jump(); // => true
     luke.setHeight(20) // => undefined
 
     // good
     Jedi.prototype.jump = function() {
-      this.jumping = true;
-      return this;
-    };
+      this.jumping = true
+      return this
+    }
 
     Jedi.prototype.setHeight = function(height) {
-      this.height = height;
-      return this;
-    };
+      this.height = height
+      return this
+    }
 
-    var luke = new Jedi();
+    var luke = new Jedi()
 
     luke.jump()
-      .setHeight(20);
+      .setHeight(20)
     ```
 
 
@@ -1056,17 +1051,17 @@
 
     ```javascript
     function Jedi(options) {
-      options || (options = {});
-      this.name = options.name || 'no name';
+      options || (options = {})
+      this.name = options.name || 'no name'
     }
 
     Jedi.prototype.getName = function getName() {
-      return this.name;
-    };
+      return this.name
+    }
 
     Jedi.prototype.toString = function toString() {
-      return 'Jedi - ' + this.getName();
-    };
+      return 'Jedi - ' + this.getName()
+    }
     ```
 
     **[[⬆]](#TOC)**
@@ -1078,26 +1073,26 @@
 
     ```js
     // bad
-    $(this).trigger('listingUpdated', listing.id);
+    $(this).trigger('listingUpdated', listing.id)
 
     ...
 
     $(this).on('listingUpdated', function(e, listingId) {
       // do something with listingId
-    });
+    })
     ```
 
     更好:
 
     ```js
     // good
-    $(this).trigger('listingUpdated', { listingId : listing.id });
+    $(this).trigger('listingUpdated', { listingId : listing.id })
 
     ...
 
     $(this).on('listingUpdated', function(e, data) {
       // do something with data.listingId
-    });
+    })
     ```
 
   **[[⬆]](#TOC)**
@@ -1114,20 +1109,20 @@
     // fancyInput/fancyInput.js
 
     !function(global) {
-      'use strict';
+      'use strict'
 
-      var previousFancyInput = global.FancyInput;
+      var previousFancyInput = global.FancyInput
 
       function FancyInput(options) {
-        this.options = options || {};
+        this.options = options || {}
       }
 
       FancyInput.noConflict = function noConflict() {
-        global.FancyInput = previousFancyInput;
-        return FancyInput;
-      };
+        global.FancyInput = previousFancyInput
+        return FancyInput
+      }
 
-      global.FancyInput = FancyInput;
+      global.FancyInput = FancyInput
     }(this);
     ```
 
@@ -1141,25 +1136,25 @@
     ```javascript
     // bad
     function setSidebar() {
-      $('.sidebar').hide();
+      $('.sidebar').hide()
 
       // ...stuff...
 
       $('.sidebar').css({
         'background-color': 'pink'
-      });
+      })
     }
 
     // good
     function setSidebar() {
-      var $sidebar = $('.sidebar');
-      $sidebar.hide();
+      var $sidebar = $('.sidebar')
+      $sidebar.hide()
 
       // ...stuff...
 
       $sidebar.css({
         'background-color': 'pink'
-      });
+      })
     }
     ```
 
@@ -1168,22 +1163,22 @@
 
     ```javascript
     // bad
-    $('.sidebar', 'ul').hide();
+    $('.sidebar', 'ul').hide()
 
     // bad
-    $('.sidebar').find('ul').hide();
+    $('.sidebar').find('ul').hide()
 
     // good
-    $('.sidebar ul').hide();
+    $('.sidebar ul').hide()
 
     // good
-    $('.sidebar > ul').hide();
+    $('.sidebar > ul').hide()
 
     // good (slower)
-    $sidebar.find('ul');
+    $sidebar.find('ul')
 
     // good (faster)
-    $($sidebar[0]).find('ul');
+    $($sidebar[0]).find('ul')
     ```
 
     **[[⬆]](#TOC)**
